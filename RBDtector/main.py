@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 # python modules
 import configparser
@@ -12,6 +12,8 @@ import traceback
 from gui import gui
 from util import settings
 
+
+## start RBDtector
 
 def read_config():
     try:
