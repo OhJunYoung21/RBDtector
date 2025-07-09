@@ -1,5 +1,3 @@
-
-
 # python modules
 import configparser
 import logging
@@ -12,8 +10,6 @@ import traceback
 from gui import gui
 from util import settings
 
-
-## start RBDtector
 
 def read_config():
     try:

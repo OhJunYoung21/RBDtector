@@ -61,7 +61,7 @@ def __find_files(directory_name: str, find_annotation_only=False) -> Dict[str, s
     :raises FileNotFoundError: if no EDF files are found
     """
 
-    files = {}      # return value
+    files = {}  # return value
 
     try:
         abs_dir = os.path.abspath(directory_name)
@@ -188,7 +188,8 @@ def __read_txt_files(filenames: Dict, read_baseline: bool = True, read_human_rat
     if read_human_rating:
         try:
             human_rating = __read_human_rating(
-                filenames['human_rating'], start_date=start_date, recording_start_after_midnight=recording_start_after_midnight)
+                filenames['human_rating'], start_date=start_date,
+                recording_start_after_midnight=recording_start_after_midnight)
         except KeyError:
             raise ErrorForDisplay("No human rating for this PSG. No calculation for this directory.")
     else:
@@ -228,7 +229,10 @@ def __read_sleep_profile(filename: str, encoding: str = 'utf-8') -> Tuple[Dict[s
 
             if not recording_start_after_midnight \
                     and not date_change_occurred \
-                    and datetime.time(0, 0, 0) <= datetime.datetime.strptime(time, '%H:%M:%S,%f').time() < datetime.time(12, 0, 0):
+                    and datetime.time(0, 0, 0) <= datetime.datetime.strptime(time.strip(),
+                                                                             '%H:%M:%S,%f').time() < datetime.time(12,
+                                                                                                                   0,
+                                                                                                                   0):
                 current_date = start_date + datetime.timedelta(days=1)
                 date_change_occurred = True
 
@@ -248,14 +252,13 @@ def __read_sleep_profile(filename: str, encoding: str = 'utf-8') -> Tuple[Dict[s
 
 
 def __read_flow_events(filename: str, encoding: str = 'utf-8') -> Tuple[Dict[str, str], pd.DataFrame]:
-
     with open(filename, 'r', encoding=encoding) as f:
         text_in_lines = f.readlines()
         header, first_line_of_data = __read_annotation_header(text_in_lines)
         start_date, recording_start_after_midnight = __find_start_date(header, filename)
 
         # event name stands on 'event_name_split_index'th position after timings in annotation file
-        event_name_split_index = 2
+        event_name_split_index = 1
 
         event_onsets, event_name_list, event_end_times = \
             __read_annotation_body(text_in_lines[first_line_of_data:], event_name_split_index, start_date,
@@ -274,7 +277,6 @@ def __read_flow_events(filename: str, encoding: str = 'utf-8') -> Tuple[Dict[str
 
 
 def __read_arousals(filename: str, encoding: str = 'utf-8') -> Tuple[Dict[str, str], pd.DataFrame]:
-
     with open(filename, 'r', encoding=encoding) as f:
         text_in_lines = f.readlines()
         header, first_line_of_data = __read_annotation_header(text_in_lines)
@@ -299,7 +301,8 @@ def __read_arousals(filename: str, encoding: str = 'utf-8') -> Tuple[Dict[str, s
     return header, df
 
 
-def __read_baseline(filename: str, start_date: datetime.date, recording_start_after_midnight, encoding: str = 'utf-8') -> Dict[str, datetime.datetime]:
+def __read_baseline(filename: str, start_date: datetime.date, recording_start_after_midnight,
+                    encoding: str = 'utf-8') -> Dict[str, datetime.datetime]:
     try:
         with open(filename, 'r', encoding=encoding) as f:
             text_in_lines = f.readlines()
@@ -321,7 +324,9 @@ def __read_baseline(filename: str, start_date: datetime.date, recording_start_af
 
                             if not recording_start_after_midnight:
                                 after_midnight = 0
-                                if datetime.time(0, 0, 0) <= datetime.datetime.strptime(time_string, '%H:%M:%S').time() < datetime.time(12, 0, 0):
+                                if datetime.time(0, 0, 0) <= datetime.datetime.strptime(time_string,
+                                                                                        '%H:%M:%S').time() < datetime.time(
+                                        12, 0, 0):
                                     after_midnight = 1
 
                                 value[i] = pd.to_datetime(str(start_date + datetime.timedelta(days=after_midnight))
@@ -347,7 +352,6 @@ def __read_baseline(filename: str, start_date: datetime.date, recording_start_af
 
 def __read_human_rating(filenames: List[str], start_date, recording_start_after_midnight, encoding: str = 'utf-8') \
         -> List[Tuple[Dict[str, str], pd.DataFrame]]:
-
     human_rating = []
 
     for filename in filenames:
@@ -405,7 +409,8 @@ def __read_annotation_header(text_in_lines: List[str]) -> Tuple[Dict[str, str], 
     return header, first_line_of_data
 
 
-def __read_annotation_body(annotation_body_in_lines, event_name_split_index, start_date, recording_start_after_midnight):
+def __read_annotation_body(annotation_body_in_lines, event_name_split_index, start_date,
+                           recording_start_after_midnight):
     """
     Read the event onsets, event end times and event names out of 'annotation_body_in_lines', with start_date being the
     date of the beginning of the recording and 'event_name_split_index' the position of the event_name after the
@@ -438,7 +443,8 @@ def __read_annotation_body(annotation_body_in_lines, event_name_split_index, sta
             if datetime.time(0, 0, 0) <= datetime.datetime.strptime(event_onset, '%H:%M:%S,%f').time() < \
                     datetime.time(12, 0, 0):
                 onset_after_midnight = 1
-            if datetime.time(0, 0, 0) <= datetime.datetime.strptime(event_end_time, '%H:%M:%S,%f').time() < datetime.time(
+            if datetime.time(0, 0, 0) <= datetime.datetime.strptime(event_end_time,
+                                                                    '%H:%M:%S,%f').time() < datetime.time(
                     12, 0, 0):
                 end_after_midnight = 1
 
