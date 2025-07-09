@@ -36,5 +36,5 @@ def convert_flow_events(file_path: str, output_path: str):
     return
 
 
-convert_flow_events('/Users/oj/Desktop/Yoo_Lab/Yoo_data/RBD_EDF/PE210237_edf/PE210237-apnea_hypopnea.txt',
-                    '/Users/oj/Desktop/Yoo_Lab/Yoo_data/RBD_EDF/PE210237_edf/Flow Events.txt')
+def convert_arousal(file_path: str, output_path: str):
+    return
