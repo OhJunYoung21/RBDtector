@@ -283,7 +283,7 @@ def __read_arousals(filename: str, encoding: str = 'utf-8') -> Tuple[Dict[str, s
         start_date, recording_start_after_midnight = __find_start_date(header, filename)
 
         # event name stands on 'event_name_split_index'th position after timings in annotation file
-        event_name_split_index = 2
+        event_name_split_index = 1
 
         event_onsets, event_name_list, event_end_times = __read_annotation_body(text_in_lines[first_line_of_data:],
                                                                                 event_name_split_index, start_date,
@@ -297,6 +297,8 @@ def __read_arousals(filename: str, encoding: str = 'utf-8') -> Tuple[Dict[str, s
                 'event': event_name_list
             })
         df['event'].astype('category')
+
+    print(df)
 
     return header, df
 
@@ -326,7 +328,7 @@ def __read_baseline(filename: str, start_date: datetime.date, recording_start_af
                                 after_midnight = 0
                                 if datetime.time(0, 0, 0) <= datetime.datetime.strptime(time_string,
                                                                                         '%H:%M:%S').time() < datetime.time(
-                                        12, 0, 0):
+                                    12, 0, 0):
                                     after_midnight = 1
 
                                 value[i] = pd.to_datetime(str(start_date + datetime.timedelta(days=after_midnight))
@@ -445,7 +447,7 @@ def __read_annotation_body(annotation_body_in_lines, event_name_split_index, sta
                 onset_after_midnight = 1
             if datetime.time(0, 0, 0) <= datetime.datetime.strptime(event_end_time,
                                                                     '%H:%M:%S,%f').time() < datetime.time(
-                    12, 0, 0):
+                12, 0, 0):
                 end_after_midnight = 1
 
             onset_timestamp = pd.to_datetime(str(start_date + datetime.timedelta(days=onset_after_midnight))

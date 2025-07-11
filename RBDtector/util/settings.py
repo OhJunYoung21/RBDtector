@@ -4,7 +4,7 @@
 RATE = 256
 
 # Signal names of EMG channels in EDF files to be evaluated for RSWA
-SIGNALS_TO_EVALUATE = ['EMG', 'PLM l', 'PLM r', 'AUX', 'Akti.']
+SIGNALS_TO_EVALUATE = ['Chin', 'LEG-L', 'LEG-R', 'AUX', 'Akti.']
 CHIN = 0
 LEGS = [1, 2]
 ARMS = [3, 4]
