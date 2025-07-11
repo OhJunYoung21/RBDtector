@@ -13,14 +13,14 @@ def convert_flow_events(file_path: str, output_path: str):
 
     header_line = all_lines[0].strip()
 
-    for line in all_lines[2:]:
+    for line in all_lines[1:]:
         line = line.strip().split('\t')
 
         if len(line) == 4:
             _, start_time, event, duration = line
             start_time = datetime.strptime('2025-07-07 ' + start_time, '%Y-%m-%d %H:%M:%S')
             end_time = start_time + timedelta(seconds=int(duration))
-            formatted = f"{start_time.strftime('%H:%M:%S')},000000-{end_time.strftime('%H:%M:%S')},000000;{event}"
+            formatted = f"{start_time.strftime('%H:%M:%S')},000000-{end_time.strftime('%H:%M:%S')},000000;{duration};{event}"
             formatted_lines.append(formatted)
 
         else:
@@ -71,5 +71,5 @@ def convert_arousal(file_path: str, output_path: str):
     return
 
 
-convert_arousal('/Users/oj/Desktop/Yoo_Lab/Yoo_data/RBD_EDF/PE210316_edf_for_RBDtector/PE210316-arousal.txt',
-                '/Users/oj/Desktop/Yoo_Lab/Yoo_data/RBD_EDF/PE210316_edf_for_RBDtector/Classification Arousals.txt')
+convert_flow_events('/Users/oj/Desktop/Yoo_Lab/Yoo_data/RBD_EDF/PE210316_edf_for_RBDtector/PE210316-apnea_hypopnea.txt',
+                    '/Users/oj/Desktop/Yoo_Lab/Yoo_data/RBD_EDF/PE210316_edf_for_RBDtector/Flow Events.txt')
