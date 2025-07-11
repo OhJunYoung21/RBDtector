@@ -1,0 +1,20 @@
+Date: 2025-07-11_14-49-27.406582RATE = 256
+FLOW = False
+HUMAN_ARTIFACTS = False
+HUMAN_BASELINE = False
+SNORE = True
+COUNT_BASED_ACTIVITY = False
+MIN_SUSTAINED = 0.1
+MAX_GAP_SIZE = 0.25
+CHUNK_SIZE = 30L
+WITH_OFFSET = True
+OFFSET_SIZE = 15L
+SIGNALS_TO_EVALUATE = ['Chin', 'LEG-L', 'LEG-R', 'AUX', 'Akti.']
+CHIN = 0
+LEGS = [1, 2]
+ARMS = [3, 4]
+FILE_FINDER: {'edf': ['*.edf'], 'sleep_profile': ['*Sleep profile*', '*Schlafprofil*'], 'flow_events': ['*Flow Events*'], 'arousals': ['*Classification Arousals*', '*Klassifizierte Arousal*'], 'baseline': ['*Start-Baseline*'], 'human_rating': ['*Generic*']}
+HUMAN_RATING_LABEL: {'EMG': 'Chin', 'PLM l': 'LeftLeg', 'PLM r': 'RightLeg', 'AUX': 'RightArm', 'Akti.': 'LeftArm'}
+EVENT_TYPE: {'tonic': 'Tonic', 'intermediate': 'Any', 'phasic': 'Phasic', 'artifact': 'Artifact'}
+BASELINE_NAME: {'EMG': 'EMG REM baseline', 'PLM l': 'PLMl REM baseline', 'PLM r': 'PLMr REM baseline', 'AUX': 'AUX REM baseline', 'Akti.': 'AKTI REM baseline'}
+SLEEP_CLASSIFIERS: {'artifact': 'A', 'REM': 'REM', 'SNORE': 'SNORE'}
